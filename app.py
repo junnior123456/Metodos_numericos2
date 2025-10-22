@@ -47,7 +47,7 @@ opcion = st.sidebar.selectbox(
     ]
 )
 
-st.sidebar.info("Creado por **Junnior Chinchay** 👨‍💻","Alice Saboya","Jannpier Garcia")
+st.sidebar.info("Creado por **Junnior Chinchay**, Alice Saboya y Jannpier García 👨‍💻")
 
 # --- MÉTODOS DIRECTOS ---
 if opcion == "Métodos Directos":
