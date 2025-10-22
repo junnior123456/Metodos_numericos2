@@ -58,7 +58,7 @@ if opcion == "Métodos Directos":
     a diferencia de los métodos iterativos.
     """)
 
-    st.image("images/metodos_directos.png", caption="Esquema general de un método directo")
+    st.image("images/metodos_directos.JPG", caption="Esquema general de un método directo")
 
 
 # --- DESCOMPOSICIÓN LU ---
