@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Métodos Numéricos - Junnior", layout="wide")
 
-st.title("🧮 Solver Numérico Interactivo")
+st.title("🧮 Metodos directos")
 st.subheader("Exposición: Métodos Directos – Ingeniería de Sistemas")
 
 # Menú lateral
@@ -47,7 +47,7 @@ opcion = st.sidebar.selectbox(
     ]
 )
 
-st.sidebar.info("Creado por **Junnior Chinchay** 👨‍💻")
+st.sidebar.info("Creado por **Junnior Chinchay** 👨‍💻","Alice Saboya","Jannpier Garcia")
 
 # --- MÉTODOS DIRECTOS ---
 if opcion == "Métodos Directos":
