@@ -141,42 +141,43 @@ elif opcion == "Descomposición LU":
 # --- CHOLESKY ---
 elif opcion == "Cholesky":
     st.header("📙 Descomposición de Cholesky")
-    st.write("""
-    Este método se utiliza para **matrices simétricas y definidas positivas**.
-    Permite expresar A como el producto **A = L·Lᵀ**, donde L es una matriz triangular inferior.
-    """)
 
-    A_text = st.text_area("🧮 Ingrese una matriz simétrica (ejemplo: 25,15,-5;15,18,0;-5,0,11)",
-                          "25,15,-5;15,18,0;-5,0,11")
+    st.write("Este método se utiliza para matrices simétricas y definidas positivas. "
+             "Permite expresar A como el producto A = L·Lᵀ, donde L es triangular inferior.")
+
+    A_input = st.text_area("Ingrese una matriz simétrica (ejemplo: 25,15,-5;15,18,0;-5,0,11)", "")
+    b_input = st.text_input("Ingrese el vector b (ejemplo: 7,3,4,8)", "")
 
     if st.button("Calcular Descomposición de Cholesky"):
         try:
-            A = np.array([[float(num) for num in row.split(',')] for row in A_text.split(';')])
+            # Convertir texto a matriz y vector
+            A = np.array([[float(num) for num in fila.split(',')] for fila in A_input.split(';')])
+            b = np.array([float(num) for num in b_input.split(',')])
 
-            # --- Validaciones ---
-            if not np.allclose(A, A.T):
-                st.warning("⚠️ La matriz no es simétrica. El método de Cholesky requiere una matriz simétrica.")
+            # Verificar dimensiones
+            if A.shape[0] != A.shape[1]:
+                st.error("⚠️ La matriz A debe ser cuadrada.")
+            elif b.size != A.shape[0]:
+                st.error("⚠️ El vector b debe tener la misma cantidad de elementos que filas de A.")
+            elif not np.allclose(A, A.T):
+                st.error("⚠️ La matriz A no es simétrica. Cholesky requiere A simétrica y definida positiva.")
             else:
-                # --- Descomposición ---
+                # Descomposición de Cholesky
                 L = np.linalg.cholesky(A)
-                st.write("**Matriz A:**")
-                st.write(A)
-                st.write("**Factor L:**")
+                st.subheader("✅ Matriz L (Triangular inferior):")
                 st.write(L)
-                st.write("**Verificación A ≈ L·Lᵀ:**")
-                st.write(np.dot(L, L.T))
-                st.success("✅ ¡Descomposición de Cholesky realizada correctamente!")
 
-                # --- Visualización ---
-                fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-                ax[0].imshow(A, cmap='Purples')
-                ax[0].set_title("Matriz A")
-                ax[1].imshow(L, cmap='Greens')
-                ax[1].set_title("Matriz L (Triangular Inferior)")
-                st.pyplot(fig)
+                # Resolver el sistema A·x = b
+                y = np.linalg.solve(L, b)
+                x = np.linalg.solve(L.T, y)
+
+                st.subheader("📊 Solución del sistema (valores de x):")
+                for i, valor in enumerate(x, start=1):
+                    st.write(f"x{i} = {valor:.4f}")
 
         except Exception as e:
             st.error(f"Error: {e}")
+
 # --- eliminación gaussiana ---
 elif opcion == "Eliminación Gaussiana":
     st.header("📒 Eliminación Gaussiana – Paso a Paso")
