@@ -10,6 +10,7 @@ import sympy as sp
 from utils.interpolacion_newton import diferencias_divididas, interpolacion_newton, evaluar_polinomio
 from utils.image_processor import procesar_imagen, extraer_puntos_interpolacion, mostrar_imagen_procesada
 from utils.generador_desarrollo import generar_desarrollo_completo, generar_tabla_html, generar_desarrollo_visual
+from utils.table_detector import detectar_tabla_y_extraer_datos
 from PIL import Image
 
 def crear_interfaz_interpolacion():
@@ -83,21 +84,33 @@ def crear_interfaz_interpolacion():
             with col_img1:
                 st.image(imagen, caption="Imagen Original", width='stretch')
             
-            # Procesar imagen
-            with st.spinner("🔍 Procesando imagen..."):
-                resultado = procesar_imagen(imagen)
+            # Procesar imagen con detector de tablas primero
+            with st.spinner("🔍 Analizando imagen y detectando tabla..."):
+                # Intentar detección de tabla primero (más preciso)
+                x_ext, y_ext, exito_tabla = detectar_tabla_y_extraer_datos(imagen)
+                
+                # Si no funciona, usar OCR tradicional
+                if not exito_tabla or not x_ext or not y_ext:
+                    resultado = procesar_imagen(imagen)
+                    x_ext, y_ext = extraer_puntos_interpolacion(resultado['texto'])
+                else:
+                    # Crear resultado para mostrar
+                    resultado = {
+                        'texto': f"Detectados {len(x_ext)} puntos mediante análisis de tabla",
+                        'imagen_procesada': None,
+                        'exito': True
+                    }
             
             with col_img2:
-                if resultado['imagen_procesada'] is not None:
+                if resultado.get('imagen_procesada') is not None:
                     st.image(resultado['imagen_procesada'], caption="Imagen Procesada", width='stretch')
+                else:
+                    st.success("✓ Tabla detectada y analizada correctamente")
             
             # Mostrar texto extraído
-            if resultado['texto'] and len(resultado['texto'].strip()) > 5:
-                with st.expander("📝 Ver texto detectado", expanded=False):
-                    st.text_area("Texto extraído", resultado['texto'], height=150, key="texto_detectado")
-                
-                # Intentar extraer puntos
-                x_ext, y_ext = extraer_puntos_interpolacion(resultado['texto'])
+            if resultado.get('texto') and len(resultado['texto'].strip()) > 5:
+                with st.expander("📝 Ver información de detección", expanded=False):
+                    st.text_area("Información", resultado['texto'], height=150, key="texto_detectado")
                 
                 if x_ext and y_ext and len(x_ext) >= 2:
                     st.success(f"✓ Se detectaron {len(x_ext)} puntos automáticamente")
