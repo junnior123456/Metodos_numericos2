@@ -115,11 +115,24 @@ def crear_interfaz_interpolacion():
                     df_puntos = pd.DataFrame({'X': x_ext, 'Y': y_ext})
                     st.dataframe(df_puntos)
                     
-                    if st.button("✅ Usar puntos detectados", key="btn_image", type="primary"):
-                        st.session_state['x_datos'] = np.array(x_ext)
-                        st.session_state['y_datos'] = np.array(y_ext)
-                        st.success("✓ Datos cargados desde imagen")
-                        st.rerun()
+                    # Botones en columnas
+                    col_btn1, col_btn2 = st.columns(2)
+                    
+                    with col_btn1:
+                        if st.button("✅ Usar y Calcular Automáticamente", key="btn_auto_calc", type="primary"):
+                            st.session_state['x_datos'] = np.array(x_ext)
+                            st.session_state['y_datos'] = np.array(y_ext)
+                            st.session_state['calcular_automatico'] = True
+                            st.success("✓ Datos cargados y calculando...")
+                            st.rerun()
+                    
+                    with col_btn2:
+                        if st.button("📝 Solo Cargar Datos", key="btn_image"):
+                            st.session_state['x_datos'] = np.array(x_ext)
+                            st.session_state['y_datos'] = np.array(y_ext)
+                            st.session_state['calcular_automatico'] = False
+                            st.success("✓ Datos cargados desde imagen")
+                            st.rerun()
                 else:
                     st.warning("⚠️ No se pudieron detectar puntos automáticamente. Ingresa los datos manualmente abajo.")
             else:
@@ -231,8 +244,16 @@ def crear_interfaz_interpolacion():
             puntos_grafica = st.slider("Puntos en gráfica", 50, 500, 200)
             evaluar_punto = st.text_input("Evaluar en x =", "")
         
+        # Verificar si debe calcular automáticamente
+        calcular_auto = st.session_state.get('calcular_automatico', False)
+        
         # Botón principal de cálculo
-        if st.button("🚀 CALCULAR INTERPOLACIÓN", type="primary"):
+        if st.button("🚀 CALCULAR INTERPOLACIÓN", type="primary") or calcular_auto:
+            # Resetear flag de cálculo automático
+            if calcular_auto:
+                st.session_state['calcular_automatico'] = False
+                st.info("🤖 Calculando automáticamente con los datos detectados...")
+            
             calcular_y_mostrar_resultados(
                 x_datos, y_datos, 
                 mostrar_tabla, mostrar_pasos, mostrar_graficas, 
