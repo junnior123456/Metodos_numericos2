@@ -29,6 +29,15 @@ st.markdown("""
 
 import numpy as np
 import matplotlib.pyplot as plt
+import sympy as sp
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.express as px
+from PIL import Image
+import io
+from utils.interpolacion_newton import diferencias_divididas, interpolacion_newton, evaluar_polinomio
+from utils.image_processor import procesar_imagen, extraer_puntos_interpolacion, mostrar_imagen_procesada
+from utils.interpolacion_mejorada import crear_interfaz_interpolacion
 
 st.set_page_config(page_title="Métodos Numéricos - Junnior", layout="wide")
 
@@ -43,7 +52,8 @@ opcion = st.sidebar.selectbox(
         "Descomposición LU",
         "Cholesky",
         "Eliminación Gaussiana",
-        "Gauss – Jordan"
+        "Gauss – Jordan",
+        "Interpolación de Newton"
     ]
 )
 
@@ -250,6 +260,11 @@ elif opcion == "Eliminación Gaussiana":
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
+
+# --- INTERPOLACIÓN DE NEWTON ---
+elif opcion == "Interpolación de Newton":
+    crear_interfaz_interpolacion()
 
 
 # --- GAUSS–JORDAN ---
