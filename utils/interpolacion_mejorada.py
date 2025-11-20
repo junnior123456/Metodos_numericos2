@@ -128,16 +128,14 @@ def crear_interfaz_interpolacion():
                             st.success("✓ Datos cargados desde imagen")
                             st.rerun()
                 else:
-                    st.warning("⚠️ No se pudieron detectar puntos automáticamente. Ingresa los datos manualmente abajo.")
-            else:
-                st.warning("⚠️ No se pudo extraer texto de la imagen.")
-                st.info("""
-                **💡 Consejos para mejorar la detección:**
-                - Asegúrate de que la imagen tenga buena iluminación
-                - El texto debe ser claro y legible
-                - Evita imágenes borrosas o con mucho ruido
-                - Los números deben estar bien separados
-                """)
+                    st.warning("⚠️ No se pudieron detectar puntos automáticamente.")
+                    st.info("""
+                    **💡 Consejos para mejorar la detección:**
+                    - Asegúrate de que la imagen tenga buena iluminación
+                    - El texto debe ser claro y legible
+                    - Evita imágenes borrosas o con mucho ruido
+                    - Los números deben estar bien separados
+                    """)
             
             # Opción de entrada manual después de ver la imagen
             st.markdown("---")
