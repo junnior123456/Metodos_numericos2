@@ -10,6 +10,7 @@ import sympy as sp
 from utils.interpolacion_newton import diferencias_divididas, interpolacion_newton, evaluar_polinomio
 from utils.generador_desarrollo import generar_desarrollo_completo, generar_tabla_html, generar_desarrollo_visual
 from utils.analizador_inteligente import extraer_con_analisis_interno
+from PIL import Image
 
 def detectar_tabla_y_extraer_datos(imagen):
     """
@@ -18,8 +19,6 @@ def detectar_tabla_y_extraer_datos(imagen):
     """
     x, y, exito, metodo = extraer_con_analisis_interno(imagen)
     return x, y, exito
-from utils.table_detector import detectar_tabla_y_extraer_datos
-from PIL import Image
 
 def crear_interfaz_interpolacion():
     """
