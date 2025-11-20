@@ -9,14 +9,14 @@ from plotly.subplots import make_subplots
 import sympy as sp
 from utils.interpolacion_newton import diferencias_divididas, interpolacion_newton, evaluar_polinomio
 from utils.generador_desarrollo import generar_desarrollo_completo, generar_tabla_html, generar_desarrollo_visual
-from utils.ocr_simple_rapido import extraer_rapido
+from utils.ocr_definitivo import extraer_tabla
 from PIL import Image
 
 def detectar_tabla_y_extraer_datos(imagen):
     """
-    Detecta tabla y extrae datos - RÁPIDO Y SIMPLE
+    Detecta tabla y extrae datos - DEFINITIVO
     """
-    x, y = extraer_rapido(imagen)
+    x, y = extraer_tabla(imagen)
     if x and y:
         return x, y, True
     return None, None, False
