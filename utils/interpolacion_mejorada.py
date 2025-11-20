@@ -9,15 +9,15 @@ from plotly.subplots import make_subplots
 import sympy as sp
 from utils.interpolacion_newton import diferencias_divididas, interpolacion_newton, evaluar_polinomio
 from utils.generador_desarrollo import generar_desarrollo_completo, generar_tabla_html, generar_desarrollo_visual
-from utils.ocr_profesional import extraer_numeros_profesional
+from utils.ocr_ultra import extraer_numeros_ultra
 from PIL import Image
 
 def detectar_tabla_y_extraer_datos(imagen):
     """
-    Detecta tabla y extrae datos - OCR PROFESIONAL
-    Perfecciona imagen primero, luego extrae
+    Detecta tabla y extrae datos - OCR ULTRA ROBUSTO
+    8 versiones de imagen + múltiples configuraciones OCR
     """
-    x, y = extraer_numeros_profesional(imagen)
+    x, y = extraer_numeros_ultra(imagen)
     if x and y:
         return x, y, True
     return None, None, False
