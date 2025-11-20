@@ -10,6 +10,19 @@ import sympy as sp
 from utils.interpolacion_newton import diferencias_divididas, interpolacion_newton, evaluar_polinomio
 from utils.image_processor import procesar_imagen, extraer_puntos_interpolacion, mostrar_imagen_procesada
 from utils.generador_desarrollo import generar_desarrollo_completo, generar_tabla_html, generar_desarrollo_visual
+from utils.vision_avanzada import analizar_imagen_completa
+
+def detectar_tabla_y_extraer_datos(imagen):
+    """
+    Detecta tabla y extrae datos usando el sistema avanzado
+    """
+    try:
+        x_datos, y_datos, metodo = analizar_imagen_completa(imagen)
+        if x_datos and y_datos and len(x_datos) >= 2:
+            return x_datos, y_datos, True
+        return None, None, False
+    except:
+        return None, None, False
 from utils.table_detector import detectar_tabla_y_extraer_datos
 from PIL import Image
 
